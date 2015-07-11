@@ -1,0 +1,16 @@
+{
+  "name": "maze",
+  "version": "1.0.0",
+  "description": "Simple maze game",
+  "author": "Will Vincent <will@willvincent.com>",
+  "main": "maze.js",
+  "dependencies": {
+    "keypress": "*",
+    "better-console": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT"
+}
