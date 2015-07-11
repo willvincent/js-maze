@@ -13,6 +13,7 @@ At it's most basic, launch the game by executing `node maze.js`.  This will gene
 If you want to play a different size, just pass the desired width and height as parameters, ie: `node maze.js 4 4` will generate a 4x8 maze.
 
 Game play is very straight-forward:
+
 - Navigate with the arrow keys.
 - To view the full maze map, press `m`.
 - To generate a new maze (before you finish the current maze), press `n`.
