@@ -16,10 +16,11 @@ If you want to play a different size, just pass the desired width and height as 
 Game play is very straight-forward:
 
 - Navigate with the arrow keys.
-- To view the full maze map, press `m`.
+- Toggle between individual cell and full map views, press `m`.
+- Toggle 'easy' mode (show full map, or only reveal visited cells), press `e`.
 - To generate a new maze (before you finish the current maze), press `n`.
 - To quit, press `ctrl-c`.
 
 You will begin in the top-left corner of the maze, and must navigate to the bottom right to complete the maze.
 
-*Note:* There will only ever be _one single path_ between start and finish.
+**Note:** There will only ever be _one single path_ between start and finish.
