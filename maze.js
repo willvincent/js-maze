@@ -63,7 +63,7 @@ function newMaze(x, y) {
     return cells;
 }
 
-function initVisited (height, width) {
+function initVisited (width, height) {
   var visited = [];
 
   for (var x = 0; x < width; x++) {
@@ -101,7 +101,6 @@ function drawMap() {
 
     for (var x = 0; x < width; x++) {
       cell = maze[y][x];
-      console.log(cell);
       if (currentPosition[1] == x && currentPosition[0] == y) {
         line += ' @ ';
       }
@@ -272,13 +271,12 @@ function checkStatus() {
 
 
 var dimensions = process.argv.slice(2);
-var height = dimensions[0] || 10;
-var width = dimensions[1] || 10;
+var height = dimensions[1] || 10;
+var width = dimensions[0] || 10;
 var easy  = dimensions[2] || false;
 var currentPosition = [0, 0];
 var viewingMap = false;
 var visited = initVisited(width, height);
-
 var maze = newMaze(width, height);
 drawCell(maze[0][0]);
 
