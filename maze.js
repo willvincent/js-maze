@@ -63,7 +63,7 @@ function newMaze(x, y) {
     return cells;
 }
 
-function initVisted (height, width) {
+function initVisited (height, width) {
   var visited = [];
 
   for (var x = 0; x < width; x++) {
@@ -74,6 +74,8 @@ function initVisted (height, width) {
       visited[x][y] = 0;
     }
   }
+
+  visited[0][0] = 1;
 
   return visited;
 }
@@ -106,14 +108,14 @@ function drawMap() {
       else {
         line += '   ';
       }
-      if (cell[1]) {
+      if (cell[1] && ((visited[x][y] || visited[x+1][y]) || easy)) {
         line += ' ';
       }
       else {
         line += '|';
       }
 
-      if (cell[2]) {
+      if (cell[2] && ((visited[x][y] || visited[x][y+1]) || easy)) {
         line_bottom += '   +';
       }
       else {
@@ -128,13 +130,13 @@ function drawMap() {
   lines.forEach(function (l) {
     console.log(l);
   });
+  checkStatus();
 }
 
 function drawCell(cell) {
   console.clear();
   cell = cell.join(',');
   console.log('x: ' + (currentPosition[1] + 1) , 'y: ' + (currentPosition[0] + 1));
-  visited[currentPosition[0]][currentPosition[1]] = 1;
   switch (cell) {
     case '1,0,0,0':
       console.log('+--      --+');
@@ -219,7 +221,7 @@ function drawCell(cell) {
     case '1,1,1,0':
       console.log('+--      --+');
       console.log('|          |');
-      console.log('|');s
+      console.log('|');
       console.log('|');
       console.log('|          |');
       console.log('+--      --+');
@@ -272,9 +274,10 @@ function checkStatus() {
 var dimensions = process.argv.slice(2);
 var height = dimensions[0] || 10;
 var width = dimensions[1] || 10;
+var easy  = dimensions[2] || false;
 var currentPosition = [0, 0];
 var viewingMap = false;
-var visited = initVisted(width, height);
+var visited = initVisited(width, height);
 
 var maze = newMaze(width, height);
 drawCell(maze[0][0]);
@@ -290,33 +293,69 @@ process.stdin.on('keypress', function (ch, key) {
       }
       viewingMap = !viewingMap;
       break;
+    case 'e':
+      easy = !easy;
+      if (viewingMap) {
+        drawMap();
+      }
+      break;
     case 'n':
       maze = newMaze(width, height);
       currentPosition = [0,0];
-      drawMap();
+      visited = initVisited(width, height);
+      if (viewingMap) {
+        drawMap();
+      }
+      else {
+        drawCell(maze[currentPosition[0]][currentPosition[1]]);
+      }
       break;
     case 'up':
       if (maze[currentPosition[0]][currentPosition[1]][0]) {
         currentPosition[0]--;
-        drawCell(maze[currentPosition[0]][currentPosition[1]]);
+        visited[currentPosition[1]][currentPosition[0]] = 1;
+        if (viewingMap) {
+          drawMap();
+        }
+        else {
+          drawCell(maze[currentPosition[0]][currentPosition[1]]);
+        }
       }
       break;
     case 'down':
       if (maze[currentPosition[0]][currentPosition[1]][2]) {
         currentPosition[0]++;
-        drawCell(maze[currentPosition[0]][currentPosition[1]]);
+        visited[currentPosition[1]][currentPosition[0]] = 1;
+        if (viewingMap) {
+          drawMap();
+        }
+        else {
+          drawCell(maze[currentPosition[0]][currentPosition[1]]);
+        }
       }
       break;
     case 'left':
       if (maze[currentPosition[0]][currentPosition[1]][3]) {
         currentPosition[1]--;
-        drawCell(maze[currentPosition[0]][currentPosition[1]]);
+        visited[currentPosition[1]][currentPosition[0]] = 1;
+        if (viewingMap) {
+          drawMap();
+        }
+        else {
+          drawCell(maze[currentPosition[0]][currentPosition[1]]);
+        }
       }
       break;
     case 'right':
       if (maze[currentPosition[0]][currentPosition[1]][1]) {
         currentPosition[1]++;
-        drawCell(maze[currentPosition[0]][currentPosition[1]]);
+        visited[currentPosition[1]][currentPosition[0]] = 1;
+        if (viewingMap) {
+          drawMap();
+        }
+        else {
+          drawCell(maze[currentPosition[0]][currentPosition[1]]);
+        }
       }
       break;
   }
